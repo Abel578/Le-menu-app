@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -28,7 +29,7 @@
 
         .main-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('1773929599334.png'); 
+            background-image: url('1773929599334.webp');
             background-size: cover; background-position: center; z-index: -1;
         }
         .main-bg::after { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.7); }
@@ -99,7 +100,10 @@
 
 <div class="app-container">
     <header class="header">
-        <img src="1773931259708.png" class="logo-placeholder">
+       <picture>
+  <source srcset="1773931259708.webp" type="image/webp">
+  <img src="1773931259708.png" class="logo-placeholder">
+</picture>
         <div>
             <h1 class="neon-glow">MENÜ ✨</h1>
             <p id="statsTxt" style="font-size: 12px; color: #888;">Laden...</p>
@@ -203,7 +207,10 @@ function renderGrid(items) {
     const grid = document.getElementById('productGrid');
     grid.innerHTML = items.map(d => `
         <div class="card" onclick="openProduct('${d.name}')">
-            <img src="${d.name}.png">
+            <picture>
+  <source srcset="${d.name}.webp" type="image/webp">
+  <img src="${d.name}.webp" loading="lazy">
+</picture>
             <h4>${d.name}</h4>
         </div>
     `).join('');
@@ -222,9 +229,18 @@ function openProduct(name) {
     
     // Images slider
     document.getElementById('productSlider').innerHTML = `
-        <img src="${currentP.name}1.png">
-        <img src="${currentP.name}2.png">
-        <img src="${currentP.name}3.png">
+        <picture>
+  <source srcset="${currentP.name}1.webp" type="image/webp">
+  <img src="${currentP.name}1.webp" loading="lazy">
+</picture>
+<picture>
+  <source srcset="${currentP.name}2.webp" type="image/webp">
+  <img src="${currentP.name}2.webp" loading="lazy">
+</picture>
+<picture>
+  <source srcset="${currentP.name}3.webp" type="image/webp">
+  <img src="${currentP.name}3.webp" loading="lazy">
+</picture>
     `;
 
     // Prix
