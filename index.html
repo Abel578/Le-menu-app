@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
-<html lang="de">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Le Menu | Premium Catalog</title>
-    <script src="https://unpkg.com/lucide@latest">
-    </script>
+    <title>Le Menu | Catalogue Premium</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script>
-    // Initialise la WebApp
-    const tg = window.Telegram.WebApp;
-    tg.ready(); // Indique à Telegram que l'app est prête à être affichée
-    tg.expand(); // Optionnel : pour ouvrir l'app en plein écran
-</script>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+    </script>
 
     <style>
         :root {
@@ -36,19 +33,16 @@
 
         .app-container { padding: 20px; max-width: 450px; margin: 0 auto; position: relative; }
 
-        /* Header */
         .header { margin: 20px 0; display: flex; align-items: center; gap: 15px; }
         .logo-placeholder { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); object-fit: cover; }
         .neon-glow { text-shadow: 0 0 10px var(--neon-cyan); }
 
-        /* Search */
         .search-container {
             background: rgba(255,0,229,0.05); border: 1.5px solid var(--neon-magenta);
             border-radius: 15px; padding: 12px; display: flex; margin-bottom: 20px;
         }
         .search-container input { background: transparent; border: none; color: white; width: 100%; outline: none; margin-left: 10px; }
 
-        /* Dropdowns Corrected */
         .dropdown-wrapper { position: relative; margin-bottom: 15px; }
         .dropdown-trigger {
             background: var(--glass); border: 1px solid var(--neon-cyan);
@@ -64,7 +58,6 @@
         .dropdown-item { padding: 15px; border-bottom: 1px solid #222; cursor: pointer; }
         .dropdown-item:hover { background: rgba(0,242,255,0.1); }
 
-        /* Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .card {
             background: rgba(10,10,10,0.8); border: 1.5px solid var(--neon-cyan);
@@ -72,7 +65,6 @@
         }
         .card img { width: 100%; border-radius: 15px; aspect-ratio: 1; object-fit: cover; margin-bottom: 10px; }
 
-        /* Modal Product */
         #productPage {
             position: fixed; inset: 0; background: #050505; z-index: 2000; 
             display: none; overflow-y: auto; padding: 20px;
@@ -101,23 +93,23 @@
 <div class="app-container">
     <header class="header">
        <picture>
-  <source srcset="1773931259708.webp" type="image/webp">
-  <img src="1773931259708.png" class="logo-placeholder">
-</picture>
+          <source srcset="1773931259708.webp" type="image/webp">
+          <img src="1773931259708.png" class="logo-placeholder">
+       </picture>
         <div>
-            <h1 class="neon-glow">MENÜ ✨</h1>
-            <p id="statsTxt" style="font-size: 12px; color: #888;">Laden...</p>
+            <h1 class="neon-glow">MENU ✨</h1>
+            <p id="statsTxt" style="font-size: 12px; color: #888;">Chargement...</p>
         </div>
     </header>
 
     <div class="search-container">
         <i data-lucide="search" color="#ff00e5"></i>
-        <input type="text" id="searchInput" placeholder="Suchen...">
+        <input type="text" id="searchInput" placeholder="Rechercher...">
     </div>
 
     <div class="dropdown-wrapper">
         <div class="dropdown-trigger" id="triggerCat">
-            <span id="labelCat">Alle Kategorien</span>
+            <span id="labelCat">Toutes les catégories</span>
             <i data-lucide="chevron-down"></i>
         </div>
         <div class="dropdown-content" id="menuCat"></div>
@@ -125,7 +117,7 @@
 
     <div class="dropdown-wrapper">
         <div class="dropdown-trigger" id="triggerProd">
-            <span id="labelProd">Alle Produkte</span>
+            <span id="labelProd">Tous les produits</span>
             <i data-lucide="chevron-down"></i>
         </div>
         <div class="dropdown-content" id="menuProd"></div>
@@ -136,25 +128,26 @@
 
 <div id="productPage">
     <button onclick="closeProduct()" style="background:none; border:none; color:white; margin-bottom:20px; display:flex; align-items:center; gap:10px;">
-        <i data-lucide="arrow-left"></i> Zurück
+        <i data-lucide="arrow-left"></i> Retour
     </button>
     <div class="slider" id="productSlider"></div>
     <h2 id="pTitle" class="neon-glow"></h2>
     <p id="pDesc" style="color:#aaa; margin: 15px 0;"></p>
     <div id="priceList"></div>
-    <a href="#" class="order-btn tg" id="tgLink">Telegram</a>
-    <a href="#" class="order-btn snap" id="snapLink">Snapchat</a>
+    <a href="#" class="order-btn tg" id="tgLink">Commander sur Telegram</a>
+    <a href="#" class="order-btn snap" id="snapLink">Commander sur Snapchat</a>
 </div>
 
 <script>
+// Traduction des catégories et descriptions dans la base de données
 const data = [
-    { cat: "Pilze 🍄", name: "Pilze Premium", desc: "Premium Qualität.", prices: {"5g": "50€", "10g": "100€"} },
-    { cat: "Meth ❄️", name: "Meth Kristall", desc: "Reinheit und Potenz.", prices: {"1g": "70€", "5g": "300€"} },
-    { cat: "MDMA ❄️", name: "MDMA Kristalle", desc: "Höchste Qualität.", prices: {"2g": "50€", "10g": "200€"} },
-    { cat: "Speed ⚡", name: "Speed Flash", desc: "Starke Wirkung.", prices: {"10g": "100€", "50g": "350€"} },
-    { cat: "Haschisch 🍫", name: "OG Chapo", desc: "Trocken und potent.", prices: {"50g": "120€", "100g": "200€"} },
-    { cat: "Weed 🍀", name: "Calius USA", desc: "Top Regal Cannabis.", prices: {"10g": "100€", "100g": "650€"} },
-    { cat: "Heroine 🍪", name: "Aktion Heroine", desc: "Premium Qualität.", prices: {"1g": "25€", "5g": "70€"} }
+    { cat: "Champignons 🍄", name: "Champignons Premium", desc: "Qualité supérieure.", prices: {"5g": "50€", "10g": "100€"} },
+    { cat: "Meth ❄️", name: "Meth Cristalline", desc: "Pureté et puissance garanties.", prices: {"1g": "70€", "5g": "300€"} },
+    { cat: "MDMA ❄️", name: "Cristaux MDMA", desc: "La plus haute qualité disponible.", prices: {"2g": "50€", "10g": "200€"} },
+    { cat: "Speed ⚡", name: "Speed Flash", desc: "Effet intense et rapide.", prices: {"10g": "100€", "50g": "350€"} },
+    { cat: "Haschisch 🍫", name: "OG Chapo", desc: "Sec et très puissant.", prices: {"50g": "120€", "100g": "200€"} },
+    { cat: "Weed 🍀", name: "Calius USA", desc: "Cannabis haut de gamme (Top Shelf).", prices: {"10g": "100€", "100g": "650€"} },
+    { cat: "Héroïne 🍪", name: "Action Héroïne", desc: "Qualité premium.", prices: {"1g": "25€", "5g": "70€"} }
 ];
 
 let currentP = null;
@@ -164,7 +157,7 @@ function init() {
     renderGrid(data);
     
     // Remplissage menu catégories
-    const cats = ["Alle Kategorien", ...new Set(data.map(d => d.cat))];
+    const cats = ["Toutes les catégories", ...new Set(data.map(d => d.cat))];
     document.getElementById('menuCat').innerHTML = cats.map(c => 
         `<div class="dropdown-item" onclick="filterByCat('${c}')">${c}</div>`
     ).join('');
@@ -184,22 +177,19 @@ function init() {
         toggleMenu('menuProd');
     };
 
-    // Fermer si clic ailleurs
     window.onclick = () => {
         document.getElementById('menuCat').style.display = 'none';
         document.getElementById('menuProd').style.display = 'none';
     };
 
-    document.getElementById('statsTxt').innerText = `${data.length} Produkte verfügbar`;
+    document.getElementById('statsTxt').innerText = `${data.length} produits disponibles`;
 }
 
 function toggleMenu(id) {
     const target = document.getElementById(id);
     const isVisible = target.style.display === 'block';
-    // Ferme tout
     document.getElementById('menuCat').style.display = 'none';
     document.getElementById('menuProd').style.display = 'none';
-    // Ouvre seulement la cible
     target.style.display = isVisible ? 'none' : 'block';
 }
 
@@ -208,9 +198,9 @@ function renderGrid(items) {
     grid.innerHTML = items.map(d => `
         <div class="card" onclick="openProduct('${d.name}')">
             <picture>
-  <source srcset="${d.name}.webp" type="image/webp">
-  <img src="${d.name}.webp" loading="lazy">
-</picture>
+                <source srcset="${d.name}.webp" type="image/webp">
+                <img src="${d.name}.webp" loading="lazy">
+            </picture>
             <h4>${d.name}</h4>
         </div>
     `).join('');
@@ -218,7 +208,7 @@ function renderGrid(items) {
 
 function filterByCat(c) {
     document.getElementById('labelCat').innerText = c;
-    const filtered = (c === "Alle Kategorien") ? data : data.filter(d => d.cat === c);
+    const filtered = (c === "Toutes les catégories") ? data : data.filter(d => d.cat === c);
     renderGrid(filtered);
 }
 
@@ -227,23 +217,21 @@ function openProduct(name) {
     document.getElementById('pTitle').innerText = currentP.name;
     document.getElementById('pDesc').innerText = currentP.desc;
     
-    // Images slider
     document.getElementById('productSlider').innerHTML = `
         <picture>
-  <source srcset="${currentP.name}1.webp" type="image/webp">
-  <img src="${currentP.name}1.webp" loading="lazy">
-</picture>
-<picture>
-  <source srcset="${currentP.name}2.webp" type="image/webp">
-  <img src="${currentP.name}2.webp" loading="lazy">
-</picture>
-<picture>
-  <source srcset="${currentP.name}3.webp" type="image/webp">
-  <img src="${currentP.name}3.webp" loading="lazy">
-</picture>
+            <source srcset="${currentP.name}1.webp" type="image/webp">
+            <img src="${currentP.name}1.webp" loading="lazy">
+        </picture>
+        <picture>
+            <source srcset="${currentP.name}2.webp" type="image/webp">
+            <img src="${currentP.name}2.webp" loading="lazy">
+        </picture>
+        <picture>
+            <source srcset="${currentP.name}3.webp" type="image/webp">
+            <img src="${currentP.name}3.webp" loading="lazy">
+        </picture>
     `;
 
-    // Prix
     document.getElementById('priceList').innerHTML = Object.entries(currentP.prices).map(([w, p], i) => `
         <div class="price-option" id="opt-${i}" onclick="selectPrice('${w}', '${p}', ${i})">
             <span>${w}</span><b>${p}</b>
@@ -258,7 +246,8 @@ function selectPrice(w, p, index) {
     document.querySelectorAll('.price-option').forEach(el => el.classList.remove('selected'));
     document.getElementById(`opt-${index}`).classList.add('selected');
     
-    const msg = encodeURIComponent(`Ich möchte bestellen: ${currentP.name} (${w} für ${p})`);
+    // Traduction du message automatique
+    const msg = encodeURIComponent(`Bonjour, je souhaite commander : ${currentP.name} (${w} pour ${p})`);
     document.getElementById('tgLink').href = `https://t.me/Kula_plg?text=${msg}`;
     document.getElementById('snapLink').href = `https://www.snapchat.com/add/preudo snap?share_id=${msg}`;
 }
